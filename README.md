@@ -1,1 +1,1 @@
-# aszabados-ddns
+# uni_ddns
