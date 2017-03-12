@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7(yq0vf)h_r!-dh568i3jr+bs0)iq7ch!o&3o_c)&cco*v1vum'
-
+SECRET_KEY = 'SphX?rzhGvWUxGlapCfFfcVg5fI9-oF~)}a=~v|}(qzph0e!aw'
+             
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'ddns_query.apps.DdnsQueryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,7 +76,7 @@ WSGI_APPLICATION = 'uni_ddns.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_ddns_dev',
+        'NAME': 'django_ddns_prod',
         'USER': 'django_ddns_admin',
         'PASSWORD': 'z2`5bVE$4q%5}dQM96*<K87^c?MEnP',
         'HOST': 'localhost',
