@@ -20,12 +20,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7(yq0vf)h_r!-dh568i3jr+bs0)iq7ch!o&3o_c)&cco*v1vum'
+#SECRET_KEY = ""
+#with open('/srv/www/venv/py3.5/dj1.10/src/sec_key') as f:
+#    SECRET_KEY = f.read().strip()
+#PGRES_KEY = ""
+#with open('/srv/www/venv/py3.5/dj1.10/src/pgres_key') as ff:
+#    PGRES_KEY = ff.read().strip()
+
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'c+j+pmu9tax!#a3c&k3q)5!g#p$gasj6yjpkagup@1$8obt2_+')
+PGRES_KEY = os.environ.get('DJANGO_PGRES_KEY', 'pwlol')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ddns.aszabados.eu']
 
 
 # Application definition
@@ -77,14 +86,20 @@ WSGI_APPLICATION = 'uni_ddns.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_ddns_dev',
+        'NAME': 'django_ddns_prod',
         'USER': 'django_ddns_admin',
-        'PASSWORD': 'z2`5bVE$4q%5}dQM96*<K87^c?MEnP',
+        'PASSWORD': PGRES_KEY,
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -123,3 +138,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+#SECURE_SSL_REDIRECT = True
+
+CSRF_COOKIE_HTTPONLY = True
+
+X_FRAME_OPTIONS = 'DENY'
