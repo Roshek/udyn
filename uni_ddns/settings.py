@@ -15,26 +15,23 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-with open('../../sec_key') as f:
+with open(os.path.join(BASE_DIR, '../sec_key')) as f:
     SECRET_KEY = f.read().strip()
 
 PGRES_DICT = {}
-with open('../../pgres_key') as f:
+with open(os.path.join(BASE_DIR, '../pgres_key')) as f:
     for line in f:
         (key, val) = line.split()
         PGRES_DICT[str(key)] = val
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.path.isfile('../../debug')
-
-print (DEBUG)
+DEBUG = os.path.isfile(os.path.join(BASE_DIR, '../debug'))
 
 ALLOWED_HOSTS = ['ddns.aszabados.eu']
 
