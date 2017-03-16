@@ -11,8 +11,13 @@ def index(request):
 
 
 def get_address(request, host_name):
-    dyname = Dyname.objects.get(prefix=host_name)
-    return HttpResponse(dyname.ip)
+    try:
+        dyname = Dyname.objects.get(prefix=host_name)
+    except Dyname.DoesNotExist:
+        return HttpResponse('The hostname ' + host_name +
+                            '.ddns.aszabados.eu has not been registered.')
+    else:
+        return HttpResponse(dyname.ip)
 
 
 def set_hostname(request, host_name):
@@ -35,7 +40,7 @@ def set_hostname(request, host_name):
             return HttpResponse("Your IP " +
                                 dyname.ip +
                                 " is saved with hostname " +
-                                host_name)
+                                host_name + ".ddns.aszabados.eu")
         else:
             dyname.ip = ip
             dyname.save()

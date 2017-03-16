@@ -20,12 +20,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7(yq0vf)h_r!-dh568i3jr+bs0)iq7ch!o&3o_c)&cco*v1vum'
+with open('../../sec_key') as f:
+    SECRET_KEY = f.read().strip()
+
+PGRES_DICT = {}
+with open('../../pgres_key') as f:
+    for line in f:
+        (key, val) = line.split()
+        PGRES_DICT[str(key)] = val
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = os.path.isfile('../../debug')
+
+print (DEBUG)
+
+ALLOWED_HOSTS = ['ddns.aszabados.eu']
 
 
 # Application definition
@@ -77,14 +87,20 @@ WSGI_APPLICATION = 'uni_ddns.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_ddns_dev',
-        'USER': 'django_ddns_admin',
-        'PASSWORD': 'z2`5bVE$4q%5}dQM96*<K87^c?MEnP',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': PGRES_DICT['NAME'],
+        'USER': PGRES_DICT['USER'],
+        'PASSWORD': PGRES_DICT['PASSWORD'],
+        'HOST': PGRES_DICT['HOST'],
+        'PORT': PGRES_DICT['PORT'],
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -123,3 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True
