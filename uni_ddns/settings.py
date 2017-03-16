@@ -33,8 +33,10 @@ with open(os.path.join(BASE_DIR, '../pgres_key')) as f:
 
 DEBUG = os.path.isfile(os.path.join(BASE_DIR, '../debug'))
 
-ALLOWED_HOSTS = ['ddns.aszabados.eu']
-
+ALLOWED_HOSTS = []
+with open(os.path.join(BASE_DIR, '../hosts')) as f:
+    for line in f:
+        ALLOWED_HOSTS.append(line.strip())
 
 # Application definition
 
