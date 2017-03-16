@@ -134,22 +134,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+STATIC_URL = '/static/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = '/static/'
-
-CSRF_COOKIE_SECURE = True
-
-SESSION_COOKIE_SECURE = True
-
-SECURE_CONTENT_TYPE_NOSNIFF = True
-
-SECURE_BROWSER_XSS_FILTER = True
-
-SECURE_SSL_REDIRECT = True
-
-CSRF_COOKIE_HTTPONLY = True
-
-X_FRAME_OPTIONS = 'DENY'
+if (DEBUG is False):
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_SSL_REDIRECT = True
+    CSRF_COOKIE_HTTPONLY = True
+    X_FRAME_OPTIONS = 'DENY'
