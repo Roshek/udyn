@@ -30,7 +30,7 @@ def set_hostname(request, host_name):
             dyname.save()
             subprocess.run('nsupdate',
                            input=str.encode("server ns1.aszabados.eu" +
-                                            "\nzone aszabados.eu" +
+                                            "\nzone ddns.aszabados.eu" +
                                             "\nupdate add " +
                                             host_name +
                                             ".ddns.aszabados.eu 60 A " +
@@ -46,7 +46,7 @@ def set_hostname(request, host_name):
             dyname.save()
             subprocess.run('nsupdate',
                            input=str.encode("server ns1.aszabados.eu" +
-                                            "\nzone aszabados.eu" +
+                                            "\nzone ddns.aszabados.eu" +
                                             "\nupdate del " +
                                             host_name +
                                             ".ddns.aszabados.eu A" +
