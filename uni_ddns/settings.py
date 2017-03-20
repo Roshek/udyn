@@ -126,9 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Budapest'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 
