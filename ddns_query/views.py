@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Dyname
 from ipware.ip import get_ip
 import subprocess
+from django.shortcuts import render
 # Create your views here.
 
 
@@ -17,7 +18,7 @@ def get_address(request, host_name):
         return HttpResponse('The hostname ' + host_name +
                             '.ddns.aszabados.eu has not been registered.')
     else:
-        return HttpResponse(dyname.mod)
+        return render(request, 'ddns_query/get.html', {"dyname": dyname})
 
 
 def set_hostname(request, host_name):
