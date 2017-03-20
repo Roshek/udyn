@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-KEY_PATH = "../settings/kpr_online/"
+KEY_PATH = "../settings/uni_ddns/"
 with open(os.path.join(BASE_DIR, KEY_PATH, 'sec_key')) as f:
     SECRET_KEY = f.read().strip()
 
