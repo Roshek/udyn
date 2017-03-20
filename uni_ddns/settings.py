@@ -19,22 +19,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-with open(os.path.join(BASE_DIR, '../sec_key')) as f:
+KEY_PATH = "../settings/kpr_online/"
+with open(os.path.join(BASE_DIR, KEY_PATH, 'sec_key')) as f:
     SECRET_KEY = f.read().strip()
 
 PGRES_DICT = {}
-with open(os.path.join(BASE_DIR, '../pgres_key')) as f:
+with open(os.path.join(BASE_DIR, KEY_PATH, 'pgres_key')) as f:
     for line in f:
         (key, val) = line.split()
         PGRES_DICT[str(key)] = val
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.path.isfile(os.path.join(BASE_DIR, '../debug'))
+DEBUG = os.path.isfile(os.path.join(BASE_DIR, KEY_PATH, 'debug'))
 
 ALLOWED_HOSTS = []
-with open(os.path.join(BASE_DIR, '../hosts')) as f:
+with open(os.path.join(BASE_DIR, KEY_PATH, 'hosts')) as f:
     for line in f:
         ALLOWED_HOSTS.append(line.strip())
 
@@ -124,9 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'hu-HU'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Budapest'
+TIME_ZONE = 'UTC'
 
 USE_I18N = False
 
