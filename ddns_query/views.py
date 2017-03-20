@@ -17,7 +17,7 @@ def get_address(request, host_name):
         return HttpResponse('The hostname ' + host_name +
                             '.ddns.aszabados.eu has not been registered.')
     else:
-        return HttpResponse(dyname.ip)
+        return HttpResponse(dyname.ip + " " + dyname.mod)
 
 
 def set_hostname(request, host_name):
