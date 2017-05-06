@@ -38,6 +38,12 @@ with open(os.path.join(BASE_DIR, KEY_PATH, 'hosts')) as f:
     for line in f:
         ALLOWED_HOSTS.append(line.strip())
 
+STATIC_DICT = {}
+with open(os.path.join(BASE_DIR, KEY_PATH, 'static')) as f:
+    for line in f:
+        (key, val) = line.split()
+        STATIC_DICT[str(key)] = val
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -105,6 +111,8 @@ CACHES = {
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
+AUTH_USER_MODEL = 'ddns_query.User'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -134,7 +142,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
+STATIC_ROOT = STATIC_DICT['ROOT']
+
+STATIC_URL = STATIC_DICT['URL']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 if (DEBUG is False):
