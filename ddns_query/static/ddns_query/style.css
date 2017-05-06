@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    background-color: white;
+    background-size: cover;
+}
+
+.ddns-header {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #1f3166;
+    position: fixed;
+    top: 0;
+    font-size: 20px;
+    font-family: Serif;
+    font-style: italic;
+    padding-left: 25px;
+    height: 60px;
+    width: 100%;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+
+.ddns-header li {
+    float:left;
+}
+
+.ddns-header .ddns-header-text {
+    padding-top: 20px;
+    color: #c4cdff;
+}
+
+
+.ddns-header .ddns-header-right {
+    font-family: sans;
+    font-size: 18px;
+    font-style: normal;
+    color: white;
+    float: right;
+    padding-right: 50px;
+    padding-top: 18px;
+}
+
+.ddns-topnav ul {
+    list-style-type: none;
+    margin: 0;
+    margin-top:60px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #7c9ce3;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.ddns-topnav ul li {
+    float: left;
+}
+
+.ddns-topnav ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+    font-family: "Arial", sans;
+    border-radius: 15px;
+    outline:0;
+}
+
+.ddns-topnav ul li a:not(.ddns-topnav-active) {
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+.ddns-topnav ul li a:hover:not(.ddns-topnav-active) {
+    background-color: #4169e1;
+}
+
+.ddns-topnav-left {
+    padding-left: 25px;
+}
+
+#ddns_topnav_right {
+    float: right;
+    padding-right: 25px;
+}
+
+.ddns-topnav-active {
+    background-color: #3c5ec4;
+}
+
+.ddns-content {
+    margin-top: 120px;
+}
+
+.ddns-content div{
+    margin-left: 50px;
+    margin-top: 30px;
+    padding: 20px;
+    /*border-style: solid;*/
+    border-radius: 25px;
+    /*border-width: 1px;
+    border-color: #3c5ec4;*/
+    width: 55%;
+    font-family: "Arial", sans;
+    font-size: 16px;
+    background-color: #f9fbff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.ddns-content h1 {
+    font-family: "Arial narrow", sans;
+    color: #1f3166;
+    font-size: 30px;
+}
+
+.ddns-content h2 {
+    font-family: "Arial narrow", sans;
+    color: #3c5ec4;
+    font-size: 25px;
+}
+
+.ddns-content h3 {
+    font-family: "arial narrow", sans;
+    color: #4d78f7;
+    font-size: 20px;
+}
+
+.ddns-content form p label {
+    margin-top: 15px;
+    display: block;
+}
+.ddns-content form p input {
+    display: block;
+    margin-top: 5px;
+    padding-left: 10px;
+}
+
+.ddns-content form ul {
+    color: #666462;
+    font-size: 12px;
+    margin-top: 5px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+.ddns-content form p .helptext {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+    padding-left: 10px;
+    color: #666462;
+}

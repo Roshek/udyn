@@ -1,0 +1,14 @@
+{% extends "ddns_query/index.html" %}
+
+{% block ddns_topnav_active %}ddns_topnav_login{% endblock%}
+
+{% block ddns_content %}
+    <div>
+        <h1>Login</h1>
+        <form action="{% url 'ddns_query:login'  %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+{% endblock %}
