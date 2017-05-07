@@ -35,7 +35,7 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li>
-                    <a id="ddns_topnav_mydomains" href="{% url 'ddns_query:index' %}">MY DOMAINS</a>
+                    <a id="ddns_topnav_mydomains" href="{% url 'ddns_query:mydomains' %}">MY DOMAINS</a>
                 </li>
                 <li>
                     <a id="ddns_topnav_newdomain" href="{% url 'ddns_query:index' %}">NEW DOMAIN</a>
@@ -60,49 +60,10 @@
         <div id="ddns_content" class="ddns-content">
             {% block ddns_content %}
             <div>
-                <h1>KPR Online ez egy h1</h1>
-                <h2>Ez egy alcím h2</h2>
-            <p>{{ is_authenticated }}</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            <h3>h3 Itt pedig az üdvözlő szöveg nagyon dizájn meg minden</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            Itt pedig az üdvözlő szöveg nagyon dizájn meg minden
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
-            <div>Itt pedig az üdvözlő szöveg nagyon dizájn meg minden
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            Itt pedig az üdvözlő szöveg nagyon dizájn meg minden
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-            Itt pedig az üdvözlő szöveg nagyon dizájn meg minden
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+                <h1>Welcome to my humble Dynamic DNS service</h1>
+                <h2>Please register and log in to use it</h2>
+                <p>Lórum ipse olyan borzasztóan mozott fogyárnon, ami bolagás nélkül nem szenezik megfelelően. A rinos hájéka szerka berlátban ingésre dikegyvezkezése van annak, hogy kövegést viszírognak a jedés csületéből. A vinyetta vaság döldörej első járt fondinát palságon hadobta létre. Az akzat dománai szerint a csóta dékos, borgató, svérgi palasztaiban is nyernyőt bolyósíthatnak. A kátlan külő resztető kedései és a kergő 2004 külő koptándája csétetett hímzésre palságon azon a járt ernyéken, ahol a jorbar mencse loccsant stepet a lázatba vétség cseléd kvizásában. Ez pofa végén tatol az a 2001 székezetésében bizált pacska, amely 277 rözlöncs iségének gedését szolódja a neteletész kohé modásában. Közel kodindás kvasággal perkednek alvadt és bordos bükkös a neteletész nyegőnek, de a fullóra csak meti mostában csétet elés. Az okkult telös fizmus lória számára ez pofában is birátus dulab högépöt szőrögt.</p>
+            </div>
             {% endblock ddns_content %}
         </div>
     </div>

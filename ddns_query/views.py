@@ -10,6 +10,8 @@ import dns.query
 import dns.update
 import dns.rcode
 from django.utils import timezone
+from django.utils.crypto import get_random_string
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -26,7 +28,6 @@ def get_address(request, host_name):
                             '.ddns.aszabados.eu has not been registered.')
     else:
         return render(request, 'ddns_query/get.html', {"dyname": dyname})
-
 
 @csrf_exempt
 @require_POST

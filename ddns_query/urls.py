@@ -18,7 +18,6 @@ urlpatterns = [
         name='registration_register'
     ),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    
 
     url(r'^login/$',
         auth_views.login,
@@ -33,6 +32,11 @@ urlpatterns = [
         r'^update/$',
         views.update,
         name='update'
+    ),
+    url(
+        r'^mydomains/$',
+        TemplateView.as_view(template_name="ddns_query/mydomains.html"),
+        name="mydomains"
     )
     # url(r'^set/(?P<host_name>[a-z,0-9]{1,15})/$',
     #    views.set_hostname, name='set_hostname'),

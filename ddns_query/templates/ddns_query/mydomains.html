@@ -1,0 +1,41 @@
+{% extends "ddns_query/index.html" %}
+
+{% block ddns_topnav_active %}ddns_topnav_mydomains{% endblock%}
+
+{% block ddns_content %}
+    
+        {% if user.is_authenticated %}
+            {% for dyname in user.dyname_set.all %}
+            <div>
+                <ul id="ddns_content_dyname_{{dyname.prefix}}" class="ddns-content-dyname">
+                    <li><h2>{{dyname.prefix}}.{{dyname.zone}}</h2></li>
+                    <li>
+                        <span class="ddns-content-dyname-bigger">Current IP:</span>
+                        <span class="ddns-content-dyname-smaller">{{dyname.ip}}</span>
+                    </li>
+                    <li>
+                        <span class="ddns-content-dyname-bigger">Renewal token:</span>
+                        <span class="ddns-content-dyname-smaller">{{dyname.token}}</span>
+                    </li>
+                    <li>
+                        <span class="ddns-content-dyname-bigger">Primary DNS server hostname:</span>
+                        <span class="ddns-content-dyname-smaller">{{dyname.primary_dns_host}}</span>
+                    </li>
+                    <li>
+                        <span class="ddns-content-dyname-bigger">Primary DNS server IP:</span>
+                        <span class="ddns-content-dyname-smaller">{{dyname.primary_dns_ip}}</span>
+                    </li>
+                    <li>
+                        <span class="ddns-content-dyname-bigger">Last modified (UTC):</span>
+                        <span class="ddns-content-dyname-smaller">{{dyname.mod}}</span>
+                    </li>
+                </ul>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div>
+            You are not logged in! Please log in <a href="{% url 'ddns_query:login' %}">here</a>
+        </div>
+        {% endif %}
+    
+{% endblock %}
