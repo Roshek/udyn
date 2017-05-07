@@ -10,19 +10,20 @@ urlpatterns = [
     url(r'^$',
         TemplateView.as_view(template_name="ddns_query/index.html"),
         name="index"),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
     url(
         r'^accounts/register/$',
         RegistrationView.as_view(
             form_class=CustomRegistrationForm
         ),
-        name='register',
+        name='registration_register'
     ),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+    
 
-    url(r'^/accounts/login/$',
+    url(r'^login/$',
         auth_views.login,
         name='login'),
-    url(r'^/accounts/logout/$',
+    url(r'^logout/$',
         auth_views.logout,
         name='logout'),
 

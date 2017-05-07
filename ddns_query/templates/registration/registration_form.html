@@ -5,7 +5,7 @@
 {% block ddns_content %}
     <div>
         <h1>Register new user</h1>
-        <form action="{% url 'ddns_query:register'  %}" method="post">
+        <form action="{% url 'ddns_query:registration_register'  %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Submit" />
