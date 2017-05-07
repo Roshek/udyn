@@ -29,8 +29,13 @@ urlpatterns = [
     url(r'^get/(?P<host_name>[a-z,0-9]{1,15})/$',
         views.get_address, name='get_ip'),
     url(
+        r'^add/$',
+        views.addDyname,
+        name='add'
+    ),
+    url(
         r'^update/$',
-        views.update,
+        views.updateDyname,
         name='update'
     ),
     url(

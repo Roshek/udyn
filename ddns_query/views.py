@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.http import HttpResponseServerError
+from django.http import HttpResponseServerError, HttpResponseRedirect
 from .models import Dyname
 from ipware.ip import get_ip
 from django.views.decorators.http import require_POST
@@ -12,6 +12,7 @@ import dns.rcode
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.contrib.auth.decorators import login_required
+from .forms import AddDynameForm
 
 # Create your views here.
 
@@ -29,9 +30,29 @@ def get_address(request, host_name):
     else:
         return render(request, 'ddns_query/get.html', {"dyname": dyname})
 
+
+@login_required
+def addDyname(request):
+    if request.method == 'POST':
+
+        form = AddDynameForm(request.POST)
+        if form.is_valid():
+            dyname = form.save(commit=False)
+            dyname.token = get_random_string(length=30)
+            dyname.user = request.user
+            form.save()
+
+            return HttpResponseRedirect('/mydomains/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = AddDynameForm()
+
+    return render(request, 'ddns_query/add_domain.html', {'form': form})
+
 @csrf_exempt
 @require_POST
-def update(request):
+def updateDyname(request):
     ip = get_ip(request)
     if ip is None:
         return HttpResponseServerError("Error: Couldn't get your IP.")
