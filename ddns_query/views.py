@@ -21,16 +21,6 @@ def index(request):
     return HttpResponse("ddns stuff")
 
 
-def get_address(request, host_name):
-    try:
-        dyname = Dyname.objects.get(prefix=host_name)
-    except Dyname.DoesNotExist:
-        return HttpResponse('The hostname ' + host_name +
-                            '.ddns.aszabados.eu has not been registered.')
-    else:
-        return render(request, 'ddns_query/get.html', {"dyname": dyname})
-
-
 @login_required
 def addDyname(request):
     if request.method == 'POST':
@@ -49,6 +39,7 @@ def addDyname(request):
         form = AddDynameForm()
 
     return render(request, 'ddns_query/add_domain.html', {'form': form})
+
 
 @csrf_exempt
 @require_POST
