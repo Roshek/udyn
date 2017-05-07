@@ -156,3 +156,5 @@ if (DEBUG is False):
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_HTTPONLY = True
     X_FRAME_OPTIONS = 'DENY'
+
+DEBUG = False
