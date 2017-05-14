@@ -24,7 +24,6 @@ def index(request):
 @login_required
 def addDyname(request):
     if request.method == 'POST':
-
         form = AddDynameForm(request.POST)
         if form.is_valid():
             dyname = form.save(commit=False)

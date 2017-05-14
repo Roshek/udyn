@@ -8,7 +8,16 @@
         <form action="{% url 'ddns_query:add'  %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"/>
         </form>
+        <script>
+            function enableDisableCustomZones(isChecked) {
+                document.getElementById('id_zone').readOnly = !isChecked;
+                document.getElementById('id_primary_dns_host').readOnly = !isChecked;
+                document.getElementById('id_primary_dns_ip').readOnly = !isChecked;
+            }
+            enableDisableCustomZones(document.getElementById('id_custom_zone').value);
+            document.getElementById('id_custom_zone').addEventListener("change", function() {enableDisableCustomZones(this.checked)});  
+        </script>
     </div>
 {% endblock %}
