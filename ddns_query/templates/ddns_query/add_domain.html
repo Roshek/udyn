@@ -5,7 +5,9 @@
 {% block ddns_content %}
     <div>
         <h1>Add new domain</h1>
-        <form action="{% url 'ddns_query:add'  %}" method="post">
+        <form action="{% block ddns_domain_form_url %}
+            {% url 'ddns_query:add'  %}
+        {% endblock ddns_domain_form_url %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Submit"/>
@@ -16,7 +18,7 @@
                 document.getElementById('id_primary_dns_host').readOnly = !isChecked;
                 document.getElementById('id_primary_dns_ip').readOnly = !isChecked;
             }
-            enableDisableCustomZones(document.getElementById('id_custom_zone').value);
+            enableDisableCustomZones(document.getElementById('id_custom_zone').checked);
             document.getElementById('id_custom_zone').addEventListener("change", function() {enableDisableCustomZones(this.checked)});  
         </script>
     </div>

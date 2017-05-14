@@ -32,9 +32,24 @@ urlpatterns = [
         name='add'
     ),
     url(
+        r'^modify/(?P<prefix>[a-zA-Z0-9]+)/$',
+        views.modifyDyname,
+        name='modify_dyname'
+    ),
+    url(
+        r'^delete/$',
+        views.deleteDyname,
+        name='delete_dyname'
+    ),
+    url(
         r'^update/$',
         views.updateDyname,
         name='update'
+    ),
+    url(
+        r'^update/token/$',
+        views.updateToken,
+        name='update_token'
     ),
     url(
         r'^mydomains/$',

@@ -3,7 +3,6 @@
 {% block ddns_topnav_active %}ddns_topnav_mydomains{% endblock%}
 
 {% block ddns_content %}
-    
         {% if user.is_authenticated %}
             {% for dyname in user.dyname_set.all %}
             <div>
@@ -28,6 +27,27 @@
                     <li>
                         <span class="ddns-content-dyname-bigger">Last modified (UTC):</span>
                         <span class="ddns-content-dyname-smaller">{{dyname.mod}}</span>
+                    </li>
+                </ul>
+                <ul class="ddns-content-dyname-buttons">
+                    <li>
+                        <form action="{% url 'ddns_query:delete_dyname' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="prefix" value="{{dyname.prefix}}" />
+                            <input type="hidden" name="token" value="{{dyname.token}}" />
+                            <input class="ddns-content-dyname-buttons-delete" type="submit" value="Delete"/>
+                        </form></li>
+                    <li>
+                        <form action="{% url 'ddns_query:modify_dyname' prefix=dyname.prefix %}" method="GET">
+                            <input class="ddns-content-dyname-button" type="submit" value="Modify"/>
+                        </form></li>
+                    <li>
+                        <form action="{% url 'ddns_query:update_token' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="prefix" value="{{dyname.prefix}}" />
+                            <input type="hidden" name="token" value="{{dyname.token}}" />
+                            <input class="ddns-content-dyname-button" type="submit" value="Generate new token"/>
+                        </form>
                     </li>
                 </ul>
             </div>

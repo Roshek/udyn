@@ -58,7 +58,7 @@ body {
     float: left;
 }
 
-.ddns-topnav ul li a {
+.ddns-topnav ul li a{
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -165,7 +165,7 @@ body {
 
 .ddns-content-dyname li{
     list-style-type: none;
-    width: 80%;
+    width: 100%;
     margin:0px;
     margin-bottom: 10px;
     padding:0px;
@@ -181,3 +181,49 @@ body {
     font-size: 17px;
 }
 
+
+.ddns-content-dyname-buttons {
+    list-style-type: none;
+    margin: 0;
+    margin-top:20px;
+    padding: 0;
+    overflow: hidden;
+    top: 0;
+    width: auto;
+}
+
+.ddns-content-dyname-buttons li {
+    float: right;
+    padding-right: 10px;
+}
+
+.ddns-content-dyname-buttons li form input{
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+    background-color: #7c9ce3;
+    font-family: "Arial", sans;
+    font-size: 18px;
+    cursor:pointer;
+    border: none;
+    border-radius: 15px;
+    outline:0;
+}
+
+.ddns-content-dyname-buttons li form input{
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+.ddns-content-dyname-buttons li form input:hover:not(.ddns-content-dyname-buttons-delete)  {
+    background-color: #4169e1;
+}
+
+.ddns-content-dyname-buttons li .ddns-content-dyname-buttons-delete:hover {
+    background-color: #ef4343;
+}
