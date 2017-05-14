@@ -1,0 +1,26 @@
+{% extends "ddns_query/index.html" %}
+{% load static %}
+{% block ddns_topnav_active %}ddns_topnav_clients{% endblock%}
+
+{% block ddns_content %}
+    <div>
+        <h1>Linux script</h1>
+        <h2>Download script: <a href="{% static 'ddns_query/ddns_updater.sh' %}"> here</a></h2>
+        <p>
+            Download and run this script on any Linux system that has python 2.7 and crontab installed to create a cronjob automatically that runs periodically.
+        </p>
+        <p>
+            Input parameters are:
+            <ul>
+                <li>period in minutes: cronjob will run every x minutes</li>
+                <li>zone prefix</li>
+                <li>renewal token</li>
+            </ul>
+        </p>
+        <p>
+            For example:
+                <p>    ./ddns_updater.sh 5 example abcd1234</p>
+                <p>    will send updates every 5 minutes for the example.ddns.aszabados.eu using token abcd1234</p>
+        </p>
+    </div>
+{% endblock %}

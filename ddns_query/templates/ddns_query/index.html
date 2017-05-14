@@ -45,6 +45,9 @@
                     <a id="ddns_topnav_register" href="{% url 'ddns_query:registration_register' %}">REGISTER</a>
                 </li>
                 {% endif %}
+                <li>
+                    <a id="ddns_topnav_clients" href="{% url 'ddns_query:clients' %}">CLIENTS</a>
+                </li>
                 <li id="ddns_topnav_right" class="ddns-topnav-right">
                 {% if user.is_authenticated %}
                     <a id="ddns_topnav_logout" href="{% url 'ddns_query:logout' %}">LOG OUT</a>

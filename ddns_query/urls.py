@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^logout/$',
         auth_views.logout,
         name='logout'),
-
     url(
         r'^add/$',
         views.addDyname,
@@ -55,5 +54,10 @@ urlpatterns = [
         r'^mydomains/$',
         TemplateView.as_view(template_name="ddns_query/mydomains.html"),
         name="mydomains"
+    ),
+    url(
+        r'^clients/$',
+        TemplateView.as_view(template_name="ddns_query/clients.html"),
+        name="clients"
     )
 ]
