@@ -74,10 +74,14 @@ def addDyname(request):
 
     else:
         form = AddDynameForm(
-            initial={'zone': settings.SETTINGS_DICT["DEFAULT_ZONE"]}
+            initial = {
+                'zone': "",
+                'primary_dns_host': "",
+                'primary_dns_ip': ""
+            }
         )
 
-    return render(request, 'ddns_query/add_domain.html', {'form': form})
+    return render(request, 'ddns_query/add_domain.html', {'form': form, 'default_zone': settings.SETTINGS_DICT["DEFAULT_ZONE"]})
 
 
 @login_required

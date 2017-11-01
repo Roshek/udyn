@@ -19,6 +19,7 @@ class AddDynameForm(ModelForm):
     class Meta:
         model = Dyname
         fields = [
+            'custom_zone',
             'prefix',
             'zone',
             'primary_dns_host',
