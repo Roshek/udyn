@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import AddDynameForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
-
+from django.conf import settings
 
 class DNSQueryException(Exception):
     pass
@@ -27,7 +27,7 @@ def addRecordToDNS(dyname):
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
     if (response.rcode() != dns.rcode.NOERROR):
-        raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
+        raise DNSQueryException("DNS Query Ex. code: " + str(response.rcode()))
 
 
 def updateRecordInDNS(dyname):
@@ -73,7 +73,9 @@ def addDyname(request):
             return HttpResponseRedirect('/mydomains/')
 
     else:
-        form = AddDynameForm()
+        form = AddDynameForm(
+            initial={'zone': settings.SETTINGS_DICT["DEFAULT_ZONE"]}
+        )
 
     return render(request, 'ddns_query/add_domain.html', {'form': form})
 

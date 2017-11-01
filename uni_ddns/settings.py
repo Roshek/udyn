@@ -149,7 +149,7 @@ STATIC_ROOT = STATIC_DICT['ROOT']
 STATIC_URL = STATIC_DICT['URL']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-if (DEBUG is False):
+if DEBUG is False:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True

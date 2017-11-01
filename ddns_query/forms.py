@@ -5,7 +5,7 @@ from .models import Dyname
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
-
+from django.conf import settings
 
 class CustomRegistrationForm(RegistrationForm):
     class Meta:
@@ -37,7 +37,7 @@ class AddDynameForm(ModelForm):
                     params={'value': "asd"},
                 )
         else:
-            cleaned_data['zone'] = Dyname._meta.get_field('zone').default
+            cleaned_data['zone'] = settings.SETTINGS_DICT['DEFAULT_ZONE'] # Dyname._meta.get_field('zone').default
             cleaned_data['primary_dns_host'] = Dyname._meta.get_field(
                 'primary_dns_host').default
             cleaned_data['primary_dns_ip'] = Dyname._meta.get_field(
