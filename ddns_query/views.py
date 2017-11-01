@@ -1,21 +1,21 @@
 # from django.shortcuts import render
+from ipware.ip import get_ip
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.http import HttpResponseServerError, HttpResponseRedirect
-from .models import Dyname
-from ipware.ip import get_ip
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, render
-import dns.query
-import dns.update
-import dns.rcode
-from django.utils import timezone
 from django.utils.crypto import get_random_string
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import AddDynameForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.conf import settings
+import dns.query
+import dns.update
+import dns.rcode
+from .models import Dyname
+from .forms import AddDynameForm
 
 class DNSQueryException(Exception):
     pass
@@ -26,7 +26,7 @@ def addRecordToDNS(dyname):
     update.add(dyname.prefix, 60, 'a', dyname.ip)
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
-    if (response.rcode() != dns.rcode.NOERROR):
+    if response.rcode() != dns.rcode.NOERROR:
         raise DNSQueryException("DNS Query Ex. code: " + str(response.rcode()))
 
 
@@ -35,7 +35,7 @@ def updateRecordInDNS(dyname):
     update.replace(dyname.prefix, 60, 'a', dyname.ip)
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
-    if (response.rcode() != dns.rcode.NOERROR):
+    if response.rcode() != dns.rcode.NOERROR:
         raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
 
 
@@ -44,7 +44,7 @@ def deleteRecordFromDNS(dyname):
     update.delete(dyname.prefix, 'a')
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
-    if (response.rcode() != dns.rcode.NOERROR):
+    if response.rcode() != dns.rcode.NOERROR:
         raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
 
 
@@ -102,9 +102,9 @@ def modifyDyname(request, prefix):
         )
         if form.is_valid():
             if (
-                dyname.prefix != form.cleaned_data['prefix'] or
-                dyname.zone != form.cleaned_data['zone'] or
-                dyname.primary_dns_ip != form.cleaned_data['zone']
+                    dyname.prefix != form.cleaned_data['prefix'] or
+                    dyname.zone != form.cleaned_data['zone'] or
+                    dyname.primary_dns_ip != form.cleaned_data['zone']
             ):
                 try:
                     deleteRecordFromDNS(pdyname)
@@ -135,10 +135,10 @@ def deleteDyname(request):
     try:
         dyname = get_object_or_404(Dyname, prefix=request.POST['prefix'])
         token = request.POST['token']
-    except (KeyError):
+    except KeyError:
         return HttpResponseBadRequest("Error: Parameter(s) missing.")
     else:
-        if (token != dyname.token):
+        if token != dyname.token:
             return HttpResponseBadRequest("Error: Bad token.")
         try:
             deleteRecordFromDNS(dyname)
@@ -154,10 +154,10 @@ def updateToken(request):
     try:
         dyname = get_object_or_404(Dyname, prefix=request.POST['prefix'])
         token = request.POST['token']
-    except (KeyError):
+    except KeyError:
         return HttpResponseBadRequest("Error: Parameter(s) missing.")
     else:
-        if (token != dyname.token):
+        if token != dyname.token:
             return HttpResponseBadRequest("Error: Bad token.")
 
         dyname.token = get_random_string(length=30)
@@ -174,17 +174,17 @@ def updateDyname(request):
     try:
         dyname = get_object_or_404(Dyname, prefix=request.POST['prefix'])
         token = request.POST['token']
-    except (KeyError):
+    except KeyError:
         return HttpResponseBadRequest("Error: Parameter(s) missing.")
     else:
-        if (token != dyname.token):
+        if token != dyname.token:
             return HttpResponseBadRequest("Error: Bad token.")
 
         update = dns.update.Update(dyname.zone)
         update.replace(dyname.prefix, 60, 'a', ip)
 
         response = dns.query.tcp(update, dyname.primary_dns_ip)
-        if (response.rcode() != dns.rcode.NOERROR):
+        if response.rcode() != dns.rcode.NOERROR:
             return HttpResponseServerError("Error: DNS Update failed.")
         dyname.ip = ip
         dyname.mod = timezone.now()
