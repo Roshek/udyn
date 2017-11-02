@@ -14,36 +14,36 @@ class UpdateDynameViewTests(TestCase):
 
 
     def test_invalid_prefix_returns_http400(self):
-        response = self.client.post(self.url,data={"prefix":"wrongprefix", "token": "dontcare"})
+        response = self.client.post(self.url,data={"prefix":"wrongprefix", "token": "dontcare"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content, b'Error: Bad prefix.\n')
 
     def test_invalid_token_returns_http400(self):
-        response = self.client.post(self.url,data={"prefix":"prefix", "token": "wrongtoken"})
+        response = self.client.post(self.url,data={"prefix":"prefix", "token": "wrongtoken"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content, b'Error: Bad token.\n')
     
     def test_valid_data_returns_http200(self):
-        response = self.client.post(self.url,data={"prefix":"prefix", "token": "token"})
+        response = self.client.post(self.url,data={"prefix":"prefix", "token": "token"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, b'Updated hostname prefix.ddns.aszabados.eu with your IP 127.0.0.1\n')
 
     def test_wrong_http_method_returns_http405(self):
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True, secure=True)
         self.assertEquals(response.status_code,405)
     
     def test_no_post_data_returns_http400(self):
-        response = self.client.post(self.url)
+        response = self.client.post(self.url, follow=True, secure=True)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content, b'Error: Parameter(s) missing.\n')
 
     def test_no_prefix_in_post_data_returns_http400(self):
-        response = self.client.post(self.url, data={"token": "dontcare"})
+        response = self.client.post(self.url, data={"token": "dontcare"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content, b'Error: Parameter(s) missing.\n')
 
     def test_no_token_in_post_data_returns_http400(self):
-        response = self.client.post(self.url, data={"prefix": "prefix"})
+        response = self.client.post(self.url, data={"prefix": "prefix"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content, b'Error: Parameter(s) missing.\n')
 
@@ -56,11 +56,11 @@ class UpdateDynameViewTests(TestCase):
         self.assertEquals(response.content, b"Error: Couldn't get your IP.\n")
 
     def test_dns_response_has_error_returns_http500(self):
-        response = self.client.post(self.url, data={"prefix": "prefix2", "token":"token2"})
+        response = self.client.post(self.url, data={"prefix": "prefix2", "token":"token2"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 500)
         self.assertEquals(response.content, b'Error: DNS Update failed.\n')
 
     def test_custom_dyname_with_valid_data_returns_http200(self):
-        response = self.client.post(self.url,data={"prefix": "prefix3", "token": "token3"})
+        response = self.client.post(self.url,data={"prefix": "prefix3", "token": "token3"}, follow=True, secure=True)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, b'Updated hostname prefix3.roshek.eu with your IP 127.0.0.1\n')
