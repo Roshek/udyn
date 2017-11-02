@@ -35,6 +35,11 @@ with open(os.path.join(BASE_DIR, KEY_PATH, 'settings')) as f:
         (key, val) = line.split()
         SETTINGS_DICT[str(key)] = val
 
+BLACK_LIST = []
+with open(os.path.join(BASE_DIR, KEY_PATH, 'zone_blacklist')) as f:
+    for line in f:
+        BLACK_LIST.append(line.rstrip())
+
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = os.path.isfile(os.path.join(BASE_DIR, KEY_PATH, 'debug'))
@@ -52,7 +57,7 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
             'filters': ['require_debug_true'],
             'formatter': 'verbose'

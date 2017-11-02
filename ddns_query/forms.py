@@ -31,12 +31,13 @@ class AddDynameForm(ModelForm):
         custom = cleaned_data['custom_zone']
         czone = cleaned_data.get('zone')
         if custom:
-            if 'aszabados' in czone:
-                raise ValidationError(
-                    _("Invalid zone: use zone outside of aszabados.eu domain"),
-                    code='invalid_zone',
-                    params={'value': "asd"},
-                )
+            for bzone in settings.BLACK_LIST:
+                if bzone in czone:
+                    raise ValidationError(
+                        _("Invalid zone: " + czone + ". Use of this zone in custom mode is not permitted."),
+                        code='invalid_zone',
+                        params={'value': 'invalid_zone'},
+                    )
         else:
             cleaned_data['zone'] = settings.SETTINGS_DICT['DEFAULT_ZONE']
             cleaned_data['primary_dns_host'] = Dyname._meta.get_field(
