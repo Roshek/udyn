@@ -29,9 +29,70 @@ with open(os.path.join(BASE_DIR, KEY_PATH, 'pgres_key')) as f:
         (key, val) = line.split()
         PGRES_DICT[str(key)] = val
 
+SETTINGS_DICT = {}
+with open(os.path.join(BASE_DIR, KEY_PATH, 'settings')) as f:
+    for line in f:
+        (key, val) = line.split()
+        SETTINGS_DICT[str(key)] = val
+
+BLACK_LIST = []
+with open(os.path.join(BASE_DIR, KEY_PATH, 'zone_blacklist')) as f:
+    for line in f:
+        BLACK_LIST.append(line.rstrip())
+
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = os.path.isfile(os.path.join(BASE_DIR, KEY_PATH, 'debug'))
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'formatter': 'verbose'
+        },
+        'file-debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filters': ['require_debug_true'],
+            'filename': os.path.join(BASE_DIR, SETTINGS_DICT['LOGFILE_RELPATH'], "django-debug.log"),
+            'formatter': 'verbose',
+        },
+        'file-default': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filters': ['require_debug_false'],
+            'filename': os.path.join(BASE_DIR, SETTINGS_DICT['LOGFILE_RELPATH'], "django.log"),
+            'formatter': 'simple'
+        }
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file-default', 'file-debug', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 ALLOWED_HOSTS = []
 with open(os.path.join(BASE_DIR, KEY_PATH, 'hosts')) as f:
@@ -149,7 +210,7 @@ STATIC_ROOT = STATIC_DICT['ROOT']
 STATIC_URL = STATIC_DICT['URL']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-if (DEBUG is False):
+if DEBUG is False:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True

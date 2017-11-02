@@ -13,10 +13,32 @@
             <input type="submit" value="Submit"/>
         </form>
         <script>
+            var prefix = document.getElementById('id_prefix');
+            var text = document.createElement('p');
+            text.innerHTML = 'zone: {{default_zone}}';
+            prefix.parentNode.insertBefore(text, prefix.nextSibling);
+            var zone = document.getElementById('id_zone');
+            var host = document.getElementById('id_primary_dns_host');
+            var ip = document.getElementById('id_primary_dns_ip');
             function enableDisableCustomZones(isChecked) {
-                document.getElementById('id_zone').readOnly = !isChecked;
-                document.getElementById('id_primary_dns_host').readOnly = !isChecked;
-                document.getElementById('id_primary_dns_ip').readOnly = !isChecked;
+                if (!isChecked) {
+                    text.style.visibility = "visible";
+                    zone.type = "hidden";
+                    zone.parentElement.style.visibility = "hidden";
+                    host.type = "hidden";
+                    host.parentElement.style.visibility = "hidden";
+                    ip.type = "hidden";
+                    ip.parentElement.style.visibility = "hidden";
+                }
+                else {
+                    text.style.visibility = "hidden";
+                    zone.type = "text";
+                    zone.parentElement.style.visibility = "visible";
+                    host.type = "text";
+                    host.parentElement.style.visibility = "visible";
+                    ip.type = "text";
+                    ip.parentElement.style.visibility = "visible";
+                }
             }
             enableDisableCustomZones(document.getElementById('id_custom_zone').checked);
             document.getElementById('id_custom_zone').addEventListener("change", function() {enableDisableCustomZones(this.checked)});  

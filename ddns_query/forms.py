@@ -1,11 +1,11 @@
 from registration.forms import RegistrationForm
 from django import forms
 from django.forms import ModelForm
-from .models import Dyname
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
-
+from django.conf import settings
+from .models import Dyname
 
 class CustomRegistrationForm(RegistrationForm):
     class Meta:
@@ -19,6 +19,7 @@ class AddDynameForm(ModelForm):
     class Meta:
         model = Dyname
         fields = [
+            'custom_zone',
             'prefix',
             'zone',
             'primary_dns_host',
@@ -30,14 +31,15 @@ class AddDynameForm(ModelForm):
         custom = cleaned_data['custom_zone']
         czone = cleaned_data.get('zone')
         if custom:
-            if 'aszabados' in czone:
-                raise ValidationError(
-                    _("Invalid zone: use zone outside of aszabados.eu domain"),
-                    code='invalid_zone',
-                    params={'value': "asd"},
-                )
+            for bzone in settings.BLACK_LIST:
+                if bzone in czone:
+                    raise ValidationError(
+                        _("Invalid zone: " + czone + ". Use of this zone in custom mode is not permitted."),
+                        code='invalid_zone',
+                        params={'value': 'invalid_zone'},
+                    )
         else:
-            cleaned_data['zone'] = Dyname._meta.get_field('zone').default
+            cleaned_data['zone'] = settings.SETTINGS_DICT['DEFAULT_ZONE']
             cleaned_data['primary_dns_host'] = Dyname._meta.get_field(
                 'primary_dns_host').default
             cleaned_data['primary_dns_ip'] = Dyname._meta.get_field(
