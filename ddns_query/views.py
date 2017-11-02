@@ -174,22 +174,25 @@ def updateToken(request):
 def updateDyname(request):
     ip = get_ip(request)
     if ip is None:
-        return HttpResponseServerError("Error: Couldn't get your IP.")
+        return HttpResponseServerError("Error: Couldn't get your IP.\n")
     try:
-        dyname = get_object_or_404(Dyname, prefix=request.POST['prefix'])
+        try:
+            dyname = Dyname.objects.get(prefix=request.POST['prefix'])
+        except Dyname.DoesNotExist:
+            return HttpResponseBadRequest("Error: Bad prefix.\n")
         token = request.POST['token']
     except KeyError:
-        return HttpResponseBadRequest("Error: Parameter(s) missing.")
+        return HttpResponseBadRequest("Error: Parameter(s) missing.\n")
     else:
         if token != dyname.token:
-            return HttpResponseBadRequest("Error: Bad token.")
+            return HttpResponseBadRequest("Error: Bad token.\n")
 
         update = dns.update.Update(dyname.zone)
         update.replace(dyname.prefix, 60, 'a', ip)
 
         response = dns.query.tcp(update, dyname.primary_dns_ip)
         if response.rcode() != dns.rcode.NOERROR:
-            return HttpResponseServerError("Error: DNS Update failed.")
+            return HttpResponseServerError("Error: DNS Update failed.\n")
         dyname.ip = ip
         dyname.mod = timezone.now()
         dyname.save()
@@ -197,7 +200,7 @@ def updateDyname(request):
             "Updated hostname " +
             dyname.prefix + "." + dyname.zone +
             " with your IP " +
-            dyname.ip
+            dyname.ip + "\n"
         )
-        httpresponse.status_code = 201
+        httpresponse.status_code = 200
         return httpresponse
