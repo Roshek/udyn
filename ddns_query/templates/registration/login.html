@@ -1,14 +1,25 @@
-{% extends "ddns_query/index.html" %}
-
-{% block ddns_topnav_active %}ddns_topnav_login{% endblock%}
-
-{% block ddns_content %}
-    <div>
-        <h1>Login</h1>
-        <form action="{% url 'ddns_query:login'  %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit" />
-        </form>
+{% extends "ddns_query/index.html" %} {% block ddns_navbar_active %}ddns_navbar_login{% endblock%}
+{% block ddns_content%}
+<div class="container">
+    <div class="row margin-top-start-row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 well">
+            <h1 class="text-center">Login</h1>
+            <div class="form-group">
+                <form action="{% url 'ddns_query:login'  %}" method="post">
+                    {% csrf_token %} {{ form.as_p }}
+                    <p class="text-center">
+                        <input type="submit" class="btn btn-primary bg-blue border-blue" value="Submit" />
+                    </p>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
     </div>
-{% endblock %}
+</div>
+<script>
+    var inputs = document.getElementsByTagName("input");
+    for (i = 0; i < inputs.length; i++) {
+        inputs[i].className += "form-control";
+    }
+</script> {% endblock %}

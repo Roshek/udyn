@@ -2,74 +2,140 @@
 
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Udyn">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Udyn</title>
-        <!-- <link rel="stylesheet" href="css/style.css"> -->
-        <link rel="author" href="Ákos Szabados">
-        <link rel="stylesheet" type="text/css" href="{% static 'ddns_query/style.css' %}">
-        <link rel="shortcut icon" href="{% static 'ddns_query/favicon.ico' %}" type="image/x-icon">
-        <link rel="icon" href="{% static 'ddns_query/favicon.ico' %}" type="image/x-icon">
-        <script type = "text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script type = "text/javascript" src = "{% static 'ddns_query/notify.min.js' %}" ></script>
-        {% block head %}{% endblock head %}
-    </head>
-    <body>
-    <div id="ddns_body">
-        <ul id="ddns_header" class="ddns-header">
-            <li>
-                <div id="ddns_header_text" class="ddns-header-text">Udyn Dynamic DNS Service</div>
-            </li>
-            {% if user.is_authenticated %}
-            <li id="ddns_header_right" class="ddns-header-right">
-                Hello, {{ user.username }}!
-            </li>
-            {% endif %}
-        </ul>
-        <nav id="ddns_topnav" class="ddns-topnav">
-            <ul>
-                <li id="ddns_topnav_left" class="ddns_topnav_left">
-                    <a id="ddns_topnav_home" href="{% url 'ddns_query:index' %}">HOME</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li>
-                    <a id="ddns_topnav_mydomains" href="{% url 'ddns_query:mydomains' %}">MY DOMAINS</a>
-                </li>
-                <li>
-                    <a id="ddns_topnav_add_domain" href="{% url 'ddns_query:add' %}">ADD DOMAIN</a>
-                </li>
-                {% else %}
-                <li>
-                    <a id="ddns_topnav_register" href="{% url 'ddns_query:registration_register' %}">REGISTER</a>
-                </li>
-                {% endif %}
-                <li>
-                    <a id="ddns_topnav_clients" href="{% url 'ddns_query:clients' %}">CLIENTS</a>
-                </li>
-                <li id="ddns_topnav_right" class="ddns-topnav-right">
-                {% if user.is_authenticated %}
-                    <a id="ddns_topnav_logout" href="{% url 'ddns_query:logout' %}">LOG OUT</a>
-                {% else %}    
-                    <a id="ddns_topnav_login" href="{% url 'ddns_query:login'  %}">LOG IN</a>
-                {% endif %}  
-                </li>
-            </ul>
-        </nav>
-        <script>
-            document.getElementById('{% block ddns_topnav_active %}ddns_topnav_home{% endblock ddns_topnav_active %}').className = 'ddns-topnav-active';
-        </script>
-        <div id="ddns_content" class="ddns-content">
-            {% block ddns_content %}
-            <div>
-                <h1>Welcome to my humble Dynamic DNS service</h1>
-                <h2>Please register and log in to add domains</h2>
-                <p>Lórum ipse olyan borzasztóan mozott fogyárnon, ami bolagás nélkül nem szenezik megfelelően. A rinos hájéka szerka berlátban ingésre dikegyvezkezése van annak, hogy kövegést viszírognak a jedés csületéből. A vinyetta vaság döldörej első járt fondinát palságon hadobta létre. Az akzat dománai szerint a csóta dékos, borgató, svérgi palasztaiban is nyernyőt bolyósíthatnak. A kátlan külő resztető kedései és a kergő 2004 külő koptándája csétetett hímzésre palságon azon a járt ernyéken, ahol a jorbar mencse loccsant stepet a lázatba vétség cseléd kvizásában. Ez pofa végén tatol az a 2001 székezetésében bizált pacska, amely 277 rözlöncs iségének gedését szolódja a neteletész kohé modásában. Közel kodindás kvasággal perkednek alvadt és bordos bükkös a neteletész nyegőnek, de a fullóra csak meti mostában csétet elés. Az okkult telös fizmus lória számára ez pofában is birátus dulab högépöt szőrögt.</p>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Udyn">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Udyn</title>
+    <link rel="author" href="Ákos Szabados">
+    <link rel="shortcut icon" href="{% static 'ddns_query/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'ddns_query/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'ddns_query/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> {% block head %}{% endblock head %}
+</head>
+
+<body class="bgrey">
+    <nav id="ddns_navbar" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ddns-navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'ddns_query:index' %}">Udyn</a>
             </div>
-            {% endblock ddns_content %}
+            <div class="collapse navbar-collapse" id="ddns-navbar">
+                <ul class="nav navbar-nav">
+                    <li id="ddns_navbar_home">
+                        <a href="{% url 'ddns_query:index' %}">Home</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li id="ddns_navbar_mydomains">
+                        <a href="{% url 'ddns_query:mydomains' %}">My domains</a>
+                    </li>
+                    <li id="ddns_navbar_add_domain">
+                        <a href="{% url 'ddns_query:add' %}">Add domain</a>
+                    </li>
+                    {% endif %}
+                    <li id="ddns_navbar_clients">
+                        <a href="{% url 'ddns_query:clients' %}">Clients</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-user"></span> {{user.username }}</a>
+                    </li>
+                    <li id="ddns_navbar_logout">
+                        <a href="{% url 'ddns_query:logout' %}">
+                            <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                    </li>
+                    {% else %}
+                    <li id="ddns_navbar_register">
+                        <a href="{% url 'ddns_query:registration_register' %}">
+                            <span class="glyphicon glyphicon-user"></span> Register</a>
+                    </li>
+                    <li id="ddns_navbar_login">
+                        <a href="{% url 'ddns_query:login' %}">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script>
+        document.getElementById('{% block ddns_navbar_active %}ddns_navbar_home{% endblock ddns_navbar_active %}').className = 'active';
+    </script> {% block ddns_content %}
+    <div class="jumbotron text-center bg-blue">
+        <h1>Udyn</h1>
+        <p>A(n other) free and open-source Dynamic DNS service</p>
+    </div>
+    <div class="container">
+        <div class="row padding-row-home">
+            <div class="col-sm-8">
+                <h2>Free and open-source</h2>
+                <h4>Because every cool webapp has to be</h4>
+                <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit similique doloribus quidem esse nulla delectus eum est voluptatem.
+                    Iste ab ex adipisci voluptas quidem deserunt tempora, necessitatibus dolore quis sed.
+                </p>
+            </div>
+            <div class="col-sm-4 text-center">
+                <i class="fa fa-code"></i>
+            </div>
         </div>
     </div>
-    {% block body %}{% endblock body %}
-    </body>
+    <div class="container">
+        <div class="row bgreyer padding-row-home">
+            <div class="col-sm-4 text-center">
+                <i class="fa fa-cogs"></i>
+            </div>
+            <div class="col-sm-8">
+                <h2>Work in progress</h2>
+                <h4>Udyn is being actively developed right now</h4>
+                <p>This text wasn't even here yesterday</p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Est totam sed temporibus atque voluptate deserunt doloribus in.
+                    Ut dignissimos aperiam similique laudantium porro soluta architecto, alias ab, eveniet velit blanditiis.
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto culpa dolore modi alias eum accusamus
+                    veritatis tenetur enim ducimus, libero voluptate obcaecati, reprehenderit ipsum perspiciatis ipsam deleniti
+                    nihil quos quae.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row padding-row-home">
+            <div class="col-sm-8">
+                <h2>Leveraging modern technologies</h2>
+                <h4>A whole stack of awesomeness</h4>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit suscipit dicta debitis, laborum ex eos nostrum, doloremque
+                    minus quibusdam officia amet expedita tempora quis earum minima! Eos et voluptatem perferendis!
+                </p>
+            </div>
+            <div class="col-sm-4 text-center">
+                <i class="devicon devicon-github-plain"></i>
+                <i class="devicon devicon-linux-plain"></i>
+                <i class="devicon devicon-ubuntu-plain"></i>
+                <i class="devicon devicon-postgresql-plain"></i>
+                <i class="devicon devicon-apache-plain"></i>
+                <i class="devicon devicon-nginx-plain"></i>
+                <i class="devicon devicon-python-plain"></i>
+                <i class="devicon devicon-django-plain"></i>
+                <i class="devicon devicon-bootstrap-plain"></i>
+            </div>
+        </div>
+    </div>
+    {% endblock ddns_content %} {% block body %}{% endblock body %}
+</body>
+
 </html>

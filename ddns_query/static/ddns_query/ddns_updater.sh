@@ -1,5 +1,5 @@
-#!/bin/bash
-echo "#!/bin/bash
+#!/bin/sh
+echo "#!/bin/sh
 echo \"import urllib2, urllib
 url = 'https://ddns.aszabados.eu/update/'
 data = urllib.urlencode({'prefix': '$2', 'token':'$3'})

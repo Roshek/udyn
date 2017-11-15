@@ -36,7 +36,7 @@ def updateRecordInDNS(dyname):
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
     if response.rcode() != dns.rcode.NOERROR:
-        raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
+        raise DNSQueryException("DNS Query Ex. code: " + str(response.rcode()))
 
 
 def deleteRecordFromDNS(dyname):
@@ -45,7 +45,7 @@ def deleteRecordFromDNS(dyname):
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
     if response.rcode() != dns.rcode.NOERROR:
-        raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
+        raise DNSQueryException("DNS Query Ex. code: " + str(response.rcode()))
 
 
 # Create your views here.
@@ -81,7 +81,13 @@ def addDyname(request):
             }
         )
 
-    return render(request, 'ddns_query/add_domain.html', {'form': form, 'default_zone': settings.SETTINGS_DICT["DEFAULT_ZONE"]})
+    return render(request, 'ddns_query/add_domain.html',
+        {
+            'form': form,
+            'default_zone': settings.SETTINGS_DICT["DEFAULT_ZONE"],
+            'default_ns_host': settings.SETTINGS_DICT["DEFAULT_NS_HOST"],
+            'default_ns_ip': settings.SETTINGS_DICT["DEFAULT_NS_IP"]
+        })
 
 
 @login_required
@@ -130,7 +136,12 @@ def modifyDyname(request, prefix):
     else:
         form = AddDynameForm(instance=dyname)
 
-    return render(request, 'ddns_query/modify_domain.html', {'form': form})
+    return render(request, 'ddns_query/modify_domain.html',
+        {'form': form,
+        'default_zone': settings.SETTINGS_DICT["DEFAULT_ZONE"],
+        'default_ns_host': settings.SETTINGS_DICT["DEFAULT_NS_HOST"],
+        'default_ns_ip': settings.SETTINGS_DICT["DEFAULT_NS_IP"]
+        })
 
 
 @require_POST

@@ -1,47 +1,81 @@
-{% extends "ddns_query/index.html" %}
-
-{% block ddns_topnav_active %}ddns_topnav_add_domain{% endblock%}
-
-{% block ddns_content %}
-    <div>
-        <h1>Add new domain</h1>
-        <form action="{% block ddns_domain_form_url %}
-            {% url 'ddns_query:add'  %}
-        {% endblock ddns_domain_form_url %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit"/>
-        </form>
-        <script>
-            var prefix = document.getElementById('id_prefix');
-            var text = document.createElement('p');
-            text.innerHTML = 'zone: {{default_zone}}';
-            prefix.parentNode.insertBefore(text, prefix.nextSibling);
-            var zone = document.getElementById('id_zone');
-            var host = document.getElementById('id_primary_dns_host');
-            var ip = document.getElementById('id_primary_dns_ip');
-            function enableDisableCustomZones(isChecked) {
-                if (!isChecked) {
-                    text.style.visibility = "visible";
-                    zone.type = "hidden";
-                    zone.parentElement.style.visibility = "hidden";
-                    host.type = "hidden";
-                    host.parentElement.style.visibility = "hidden";
-                    ip.type = "hidden";
-                    ip.parentElement.style.visibility = "hidden";
-                }
-                else {
-                    text.style.visibility = "hidden";
-                    zone.type = "text";
-                    zone.parentElement.style.visibility = "visible";
-                    host.type = "text";
-                    host.parentElement.style.visibility = "visible";
-                    ip.type = "text";
-                    ip.parentElement.style.visibility = "visible";
-                }
-            }
-            enableDisableCustomZones(document.getElementById('id_custom_zone').checked);
-            document.getElementById('id_custom_zone').addEventListener("change", function() {enableDisableCustomZones(this.checked)});  
-        </script>
+{% extends "ddns_query/index.html" %} {% block ddns_navbar_active %}ddns_navbar_add_domain{% endblock%}
+{% block ddns_content%}
+<div class="container margin-top-start-row">
+    <div class="row">
+        <div class="col-sm-5">
+            <form class="input-group" action="{% block ddns_domain_form_url %}
+                        {% url 'ddns_query:add'  %}
+                    {% endblock ddns_domain_form_url %}" method="post">
+                {% csrf_token %} {{ form.as_p }}
+                <button type="submit" class="btn btn-primary bg-blue border-blue">Submit</button>
+            </form>
+        </div>
+        <div class="col-sm-7 well">
+            <h1>Add new domain</h1>
+            <p>
+                <h4>Custom zone:</h4>
+                Tick this if you want to use your own domain, instead of the default one ({{default_zone}}).</p>
+            <p>
+                <h4>Domain prefix:</h4>
+                The new domain name that will be added to the zone (example.{{default_zone}}).
+            </p>
+            <p>
+                <h3>Custom mode:</h3>
+                If you want to use your own domain, please make sure you configure your name servers acoordingly (accept update requests from udyn.eu).
+                <h4>DNS zone:</h4>
+                The DNS zone that you wish to use other than the default one.
+            </p>
+            <p>
+                <h4>Primary DNS server hostname:</h4>
+                The hostname of the primary name server of your zone.
+            </p>
+            <p>
+                <h4>Primary DNS server IP:</h4>
+                The IPv4 address of the primary name server.
+            </p>
+        </div>
     </div>
-{% endblock %}
+
+</div>
+<script>
+    var inputs = document.getElementsByTagName("input");
+    for (i = 0; i < inputs.length; i++) {
+        inputs[i].className += "form-control";
+    }
+
+    var prefix = document.getElementById('id_prefix');
+    var text = document.createElement('p');
+    text.innerHTML = 'zone: {{default_zone}}';
+    prefix.parentNode.insertBefore(text, prefix.nextSibling);
+    var zone = document.getElementById('id_zone');
+    var host = document.getElementById('id_primary_dns_host');
+    var ip = document.getElementById('id_primary_dns_ip');
+    function enableDisableCustomZones(isChecked) {
+        if (!isChecked) {
+            text.style.visibility = "visible";
+            zone.type = "hidden";
+            zone.required = "{{default_zone}}";
+            zone.parentElement.style.visibility = "hidden";
+            host.type = "hidden";
+            host.value = "{{default_ns_host}}";
+            host.parentElement.style.visibility = "hidden";
+            ip.type = "hidden";
+            ip.value = "{{default_ns_ip}}"
+            ip.parentElement.style.visibility = "hidden";
+        }
+        else {
+            text.style.visibility = "hidden";
+            zone.type = "text";
+            zone.value = "";
+            zone.parentElement.style.visibility = "visible";
+            host.type = "text";
+            host.value = "";
+            host.parentElement.style.visibility = "visible";
+            ip.type = "text";
+            ip.value = "";
+            ip.parentElement.style.visibility = "visible";
+        }
+    }
+    enableDisableCustomZones(document.getElementById('id_custom_zone').checked);
+    document.getElementById('id_custom_zone').addEventListener("change", function () { enableDisableCustomZones(this.checked) });  
+</script> {% endblock %}
