@@ -36,7 +36,7 @@ def updateRecordInDNS(dyname):
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
     if response.rcode() != dns.rcode.NOERROR:
-        raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
+        raise DNSQueryException("DNS Query Ex. code: " + str(response.rcode()))
 
 
 def deleteRecordFromDNS(dyname):
@@ -45,7 +45,7 @@ def deleteRecordFromDNS(dyname):
 
     response = dns.query.tcp(update, dyname.primary_dns_ip)
     if response.rcode() != dns.rcode.NOERROR:
-        raise DNSQueryException("DNS Query Ex. code: " + response.rcode())
+        raise DNSQueryException("DNS Query Ex. code: " + str(response.rcode()))
 
 
 # Create your views here.
