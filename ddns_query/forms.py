@@ -40,9 +40,7 @@ class AddDynameForm(ModelForm):
                     )
         else:
             cleaned_data['zone'] = settings.SETTINGS_DICT['DEFAULT_ZONE']
-            cleaned_data['primary_dns_host'] = Dyname._meta.get_field(
-                'primary_dns_host').default
-            cleaned_data['primary_dns_ip'] = Dyname._meta.get_field(
-                'primary_dns_ip').default
+            cleaned_data['primary_dns_host'] = settings.SETTINGS_DICT['DEFAULT_NS_HOST']
+            cleaned_data['primary_dns_ip'] = settings.SETTINGS_DICT['DEFAULT_NS_IP']
 
         return cleaned_data

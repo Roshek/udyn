@@ -1,61 +1,72 @@
 {% extends "ddns_query/index.html" %}
-
-{% block ddns_topnav_active %}ddns_topnav_mydomains{% endblock%}
-
-{% block ddns_content %}
-        {% if user.is_authenticated %}
+{% block ddns_navbar_active %}ddns_navbar_mydomains{% endblock%} 
+{% block ddns_content%}
+{% if user.is_authenticated %}
+<script>
+    var action = "{% url 'ddns_query:modify_dyname' prefix='nobodywillnameadomainlikethisihope' %}";
+    action = action.split("nobodywillnameadomainlikethisihope")[0];
+    function onRadioClick(radio, isChecked) {
+        if (isChecked) {
+            var values = radio.value.split(";");
+            var curPrefix=values[0];
+            var curToken=values[1];
+            document.getElementById("del_prefix").value = curPrefix;
+            document.getElementById("del_token").value = curToken;
+            document.getElementById("new_token_prefix").value = curPrefix;
+            document.getElementById("new_token_token").value = curToken;
+            document.getElementById("modify_form").action = action + curPrefix + "/";
+        }
+    }
+</script>
+<div class="container margin-top-start margin-bot-min table-responsive">
+    <table class="table table-striped">
+        <thead class="bg-blue color-white">
+            <tr>
+                <th>Select</th>
+                <th>Hostname</th>
+                <th>Current IP</th>
+                <th>Token</th>
+                <th>PDNS hostname</th>
+                <th>PDNS IP</th>
+                <th>Last modified</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for dyname in user.dyname_set.all %}
-            <div>
-                <ul id="ddns_content_dyname_{{dyname.prefix}}" class="ddns-content-dyname">
-                    <li><h2>{{dyname.prefix}}.{{dyname.zone}}</h2></li>
-                    <li>
-                        <span class="ddns-content-dyname-bigger">Current IP:</span>
-                        <span class="ddns-content-dyname-smaller">{{dyname.ip}}</span>
-                    </li>
-                    <li>
-                        <span class="ddns-content-dyname-bigger">Renewal token:</span>
-                        <span class="ddns-content-dyname-smaller">{{dyname.token}}</span>
-                    </li>
-                    <li>
-                        <span class="ddns-content-dyname-bigger">Primary DNS server hostname:</span>
-                        <span class="ddns-content-dyname-smaller">{{dyname.primary_dns_host}}</span>
-                    </li>
-                    <li>
-                        <span class="ddns-content-dyname-bigger">Primary DNS server IP:</span>
-                        <span class="ddns-content-dyname-smaller">{{dyname.primary_dns_ip}}</span>
-                    </li>
-                    <li>
-                        <span class="ddns-content-dyname-bigger">Last modified (UTC):</span>
-                        <span class="ddns-content-dyname-smaller">{{dyname.mod}}</span>
-                    </li>
-                </ul>
-                <ul class="ddns-content-dyname-buttons">
-                    <li>
-                        <form action="{% url 'ddns_query:delete_dyname' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="prefix" value="{{dyname.prefix}}" />
-                            <input type="hidden" name="token" value="{{dyname.token}}" />
-                            <input class="ddns-content-dyname-buttons-delete" type="submit" value="Delete"/>
-                        </form></li>
-                    <li>
-                        <form action="{% url 'ddns_query:modify_dyname' prefix=dyname.prefix %}" method="GET">
-                            <input class="ddns-content-dyname-button" type="submit" value="Modify"/>
-                        </form></li>
-                    <li>
-                        <form action="{% url 'ddns_query:update_token' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="prefix" value="{{dyname.prefix}}" />
-                            <input type="hidden" name="token" value="{{dyname.token}}" />
-                            <input class="ddns-content-dyname-button" type="submit" value="Generate new token"/>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+            <tr>
+                <td class="text-center"><input type="radio" name="selected-dyname" onclick="onRadioClick(this, this.checked)" value="{{dyname.prefix}};{{dyname.token}}"></td>
+                <td>{{dyname.prefix}}.{{dyname.zone}}</td>
+                <td>{{dyname.ip}}</td>
+                <td>{{dyname.token}}</td>
+                <td>{{dyname.primary_dns_host}}</td>
+                <td>{{dyname.primary_dns_ip}}</td>
+                <td>{{dyname.mod}}</td>
+            </tr>
             {% endfor %}
-        {% else %}
-        <div>
-            You are not logged in! Please log in <a href="{% url 'ddns_query:login' %}">here</a>
-        </div>
-        {% endif %}
-    
+        </tbody>
+    </table>
+</div>
+<div class="container margin-bot-min">
+        <form class="float-left padding-right-min" action="{% url 'ddns_query:update_token' %}" method="POST">
+            {% csrf_token %}
+            <input id="new_token_prefix" type="hidden" name="prefix" value="" />
+            <input id="new_token_token"type="hidden" name="token" value="" />
+            <input class="btn btn-primary bg-blue border-blue" type="submit" value="Generate new token" />
+        </form>
+        <form class="float-left padding-right-min" id="modify_form" action="" method="GET">
+            <input class="btn btn-primary bg-blue border-blue" type="submit" value="Modify" />
+        </form>
+        <form class="float-left padding-right-min" action="{% url 'ddns_query:delete_dyname' %}" method="POST">
+            {% csrf_token %}
+            <input id="del_prefix" type="hidden" name="prefix" value="" />
+            <input id="del_token" type="hidden" name="token" value="" />
+            <input class="btn btn-danger bg-blue border-blue" type="submit" value="Delete" />
+        </form>
+    </div>
+{% else %}
+<div>
+    You are not logged in! Please log in
+    <a href="{% url 'ddns_query:login' %}">here</a>
+</div>
+{% endif %}
 {% endblock %}
